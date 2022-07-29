@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/images/favicon-32x32.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expenses chart component</title>
+  <link rel="stylesheet" href="/scss/style.scss">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h2>My balance</h2>
+        <h3>$921.48</h3>
+      </div>
+      <img src="/images/logo.svg" alt="logo">
+    </header>
+    <main>
+      <section>
+        <h1>Spending - Last 7 days</h1>
+        <div id="chart"></div>
+      </section>
+      <div class="spacer"></div>
+      <footer>
+        <h2>Total this month</h2>
+        <div class="container">
+          <h3>$478.33</h3>
+          <div>
+            <h4>+2.4%</h4>
+            <h5>from last month</h5>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+</body>
+
+</html>
+<script>
+  // Data
+
+  const data = [
+    {
+      "day": "mon",
+      "amount": 17.45
+    },
+    {
+      "day": "tue",
+      "amount": 34.91
+    },
+    {
+      "day": "wed",
+      "amount": 52.36
+    },
+    {
+      "day": "thu",
+      "amount": 31.07
+    },
+    {
+      "day": "fri",
+      "amount": 23.39
+    },
+    {
+      "day": "sat",
+      "amount": 43.28
+    },
+    {
+      "day": "sun",
+      "amount": 25.48
+    }
+  ]
+
+  // Methods
+
+  const createChart = () => {
+    const bars = document.createElement('div')
+    bars.classList.add('bars')
+
+    const xAxes = document.createElement('div')
+    xAxes.classList.add('xAxes')
+
+    // Get max amount value
+
+    const maxValue = data.reduce((acc, cur) => acc.amount > cur.amount ? acc : cur).amount
+
+    data.map(({ day, amount }) => {
+      // Bars
+
+      let bar = document.createElement('div');
+      bar.classList.add('bar')
+
+        // Active if the day is today
+
+      if (new Date().toDateString().split(' ')[0].toLowerCase() === day) {
+        bar.classList.add('active')
+      }
+
+        // Tooltip
+
+      let tooltip = document.createElement('span');
+      tooltip.classList.add('tooltip')
+      tooltip.innerText = '$' + amount
+
+        // Bar color
+
+      let barColor = document.createElement('div');
+      barColor.classList.add('bar-color')
+      barColor.style.height = (amount / maxValue * 100 * 1.5) + 'px'
+
+        // Active if hover
+      
+      barColor.onmouseenter = () => tooltip.classList.add('active')
+      barColor.onmouseleave = () => tooltip.classList.remove('active')
+
+        // Append elements
+
+      bar.append(tooltip, barColor)
+      bars.appendChild(bar)
+
+      // Axes
+
+      const xUnit = document.createElement('span')
+      xUnit.innerText = day
+
+      xAxes.appendChild(xUnit)
+    })
+
+    document.getElementById('chart').append(bars, xAxes)
+  }
+
+  // Main
+
+  createChart()
+</script>

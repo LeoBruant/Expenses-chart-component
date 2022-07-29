@@ -1,0 +1,203 @@
+@use 'reset';
+@import 'variables';
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: var(--fs-body);
+    font-weight: $fw-regular;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: $neutral-200;
+    padding-inline: var(--sz-sm);
+    line-height: 1;
+
+    >.container {
+        @include flex-column;
+        width: 100%;
+        gap: var(--sz-sm);
+    }
+}
+
+header {
+    background-color: $primary;
+    display: flex;
+    border-radius: var(--border-radius-md);
+    padding: var(--sz-md) var(--sz-sm);
+    color: $neutral-100;
+    justify-content: space-between;
+    align-items: center;
+
+    > div {
+        @include flex-column;
+        gap: var(--sz-xs);
+    }
+
+    h3 {
+        font-weight: $fw-bold;
+        font-size: var(--fs-headings);
+    }
+
+    img {
+        display: block;
+        height: 2.5rem;
+    }
+}
+
+main {
+    @include flex-column;
+    background-color: $neutral-100;
+    padding: var(--sz-md) var(--sz-sm);
+    border-radius: var(--border-radius-md);
+    gap: var(--sz-sm);
+
+    > section {
+        @include flex-column;
+        gap: var(--sz-sm);
+    }
+
+    #chart {
+        @include flex-column;
+        gap: var(--sz-xs);
+
+        .bars,
+        .xAxes {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bars {
+            gap: var(--sz-xs);
+        }
+
+        .bar {
+            @include flex-column;
+            gap: 5px;
+            flex: 1;
+            justify-content: end;
+
+            &.active .bar-color {
+                background-color: $secondary;
+            }
+        }
+
+        .tooltip {
+            color: $neutral-100;
+            background-color: $neutral-900;
+            border: solid $neutral-900;
+            border-width: 0.45rem 0;
+            margin-inline: -0.5rem;
+            opacity: 0;
+            font-size: var(--fs-chart);
+            text-align: center;
+            border-radius: var(--border-radius-sm);
+
+            &.active {
+                opacity: 1;
+            }
+        }
+
+        .bar-color {
+            background-color: $primary;
+            border-radius: var(--border-radius-sm);
+
+            &:hover {
+                opacity: 0.5;
+            }
+        }
+
+        .xAxes > span {
+            color: $neutral-300;
+            font-size: var(--fs-chart);
+            text-align: center;
+            flex: 1;
+        }
+    }
+
+    .spacer {
+        height: 2px;
+        background-color: $neutral-200;
+    }
+
+    h1 {
+        font-weight: $fw-bold;
+        color: $neutral-900;
+        font-size: var(--fs-headings);
+    }
+
+    footer {
+        @include flex-column;
+        gap: var(--sz-xs);
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+
+            > div {
+                @include flex-column;
+                gap: 3px;
+            }
+        }
+
+        h2,
+        h5 {
+            color: $neutral-300;
+        }
+
+        h3,
+        h4 {
+            color: $neutral-900;
+            font-weight: $fw-bold;
+        }
+
+        h3 {
+            font-size: var(--fs-title);
+        }
+
+        h4 {
+            text-align: right;
+        }
+    }
+}
+
+@media screen and (min-width: $wd-desktop) {
+    body > .container {
+        width: fit-content;
+        gap: var(--sz-xs);
+    }
+
+    header {
+        padding: var(--sz-sm) var(--sz-md);
+
+        > div {
+            gap: var(--sz-xxs);
+        }
+    }
+
+    main {
+        padding: var(--sz-sm) var(--sz-md);
+
+        #chart {
+            gap: var(--sz-xxs);
+
+            .bar, .xAxes > span {
+                width: var(--sz-lg);
+            }
+
+            .xAxes > span {
+                flex: unset;
+            }
+        }
+
+        footer {
+            gap: var(--sz-xxs);
+        }
+    }
+}
